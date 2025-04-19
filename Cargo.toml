@@ -1,0 +1,12 @@
+[package]
+name = "read_lines_with_blank"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = ""
+readme = "readme.md"
+keywords = ["file", "filesystem", "lines", "read"]
+categories = ["filesystem"]
+description = "Buffer reader to a Vec<String> by line without losing or ending on blank lines"
+
+[dependencies]

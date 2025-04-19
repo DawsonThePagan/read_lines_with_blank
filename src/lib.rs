@@ -1,0 +1,29 @@
+use std::env::consts::OS;
+use std::fs::File;
+use std::error::Error;
+use std::io::{self, BufReader, Read};
+
+const NEW_LINE_WINDOWS: &str = "\r\n";
+const NEW_LINE_LINUX: &str = "\n";
+
+/// Read lines with blank lines included
+fn read_lines_with_blank_utf8(buf_read: &mut BufReader<File>) -> Result<Vec<String>, Box<dyn Error>> {
+    let mut ret: Vec<String> = Vec::new();
+    let new_line = match OS {
+        "linux" => NEW_LINE_LINUX,
+        "windows" => NEW_LINE_WINDOWS,
+        _ => return Err(Box::from(io::Error::new(io::ErrorKind::Unsupported, "Unsupported OS"))),
+    };
+
+    let mut data: Vec<u8> = Vec::new();
+    buf_read.read_to_end(&mut data)?;
+    let str: String = match String::from_utf8(data) {
+        Ok(s) => s,
+        Err(e) => return Err(Box::from(e)),
+    };
+
+    for v in str.split(new_line) {
+        ret.push(v.to_string());
+    }
+    Ok(ret)
+}
