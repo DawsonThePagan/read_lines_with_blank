@@ -7,6 +7,6 @@ repository = ""
 readme = "readme.md"
 keywords = ["file", "filesystem", "lines", "read"]
 categories = ["filesystem"]
-description = "Buffer reader to a Vec<String> by line without losing or ending on blank lines"
+description = "File to Vec<String> by line without losing or ending on blank lines"
 
 [dependencies]
