@@ -40,3 +40,29 @@ pub fn read_lines_with_blank(file: &str) -> Result<Vec<String>, Box<dyn Error>> 
     }
     Ok(ret)
 }
+
+/// Read lines with blank lines included
+///
+/// # Example
+/// ```norun
+/// use read_lines_with_blank::read_lines_with_blank_from_str;
+///
+/// let str: &str = "line1\n\n\nline2\n";
+/// let lines = match read_lines_with_blank_from_str(str) {
+///     Ok(x) => x,
+///     Err(e) => return Err(e),
+/// };
+/// ```
+pub fn read_lines_with_blank_from_str(str: &str) -> Result<Vec<String>, io::Error> {
+    let mut ret: Vec<String> = Vec::new();
+    let new_line = match OS {
+        "linux" => NEW_LINE_LINUX,
+        "windows" => NEW_LINE_WINDOWS,
+        _ => return Err(io::Error::new(io::ErrorKind::Unsupported, "Unsupported OS")),
+    };
+
+    for v in str.split(new_line) {
+        ret.push(v.to_string());
+    }
+    Ok(ret)
+}
