@@ -7,7 +7,20 @@ const NEW_LINE_WINDOWS: &str = "\r\n";
 const NEW_LINE_LINUX: &str = "\n";
 
 /// Read lines with blank lines included
-fn read_lines_with_blank_utf8(buf_read: &mut BufReader<File>) -> Result<Vec<String>, Box<dyn Error>> {
+///
+/// # Example
+/// ```norun
+/// use read_lines_with_blank::read_lines_with_blank;
+///
+/// let f = File::open("foo.txt")?;
+/// let mut reader = BufReader::new(f);
+///
+/// let lines = match read_lines_with_blank(&mut reader) {
+///     Ok(x) => x,
+///     Err(e) => return Err(e),
+/// };
+/// ```
+pub fn read_lines_with_blank(buf_read: &mut BufReader<File>) -> Result<Vec<String>, Box<dyn Error>> {
     let mut ret: Vec<String> = Vec::new();
     let new_line = match OS {
         "linux" => NEW_LINE_LINUX,
